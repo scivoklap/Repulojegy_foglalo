@@ -1,12 +1,12 @@
 from abc import ABC,abstractmethod
 class Jarat(ABC):
-    _ar1 = 20000
-    _ar2 = 10000
-    def __init__(self,id,terminal,indulasiido,celallomas):
+
+    def __init__(self,id,terminal,indulasiido,celallomas,ar):
         self._id = id
         self._terminal = terminal
         self._indulasiido = indulasiido
         self._celallomas = celallomas
+        self._ar = ar
 
     @abstractmethod
     def id(self):
@@ -34,4 +34,11 @@ class Jarat(ABC):
 
     @abstractmethod
     def celallomas(self,new_targer):
+        pass
+
+    @abstractmethod
+    def ar(self,new_ar):
+        pass
+    @abstractmethod
+    def ar(self):
         pass

@@ -1,5 +1,3 @@
-from BelfoldiJarat import Belfoldijarat
-from NemzetkoziJarat import NemzetkoziJarat
 
 class LegiTarsasag:
     def __init__(self,nev):

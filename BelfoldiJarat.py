@@ -1,12 +1,10 @@
 from Jarat import Jarat
 
 class Belfoldijarat(Jarat):
-    def __init__(self,id,terminal,indulasiido,celallomas,ulohelyek1,ulohelyek2,ar1,ar2):
-        super().__init__(id,terminal,indulasiido,celallomas)
-        self._ulohelyek1 = ulohelyek1
-        self._ulohelyek2 = ulohelyek2
-        self._ar1 = ar1
-        self._ar2 = ar2
+    def __init__(self,id,terminal,indulasiido,celallomas,ulohelyek,ar):
+        super().__init__(id,terminal,indulasiido,celallomas,ar)
+        self._ulohelyek = ulohelyek
+        self._ar = ar
         self._jarattipus = "Belföldi"
 
 
@@ -42,23 +40,21 @@ class Belfoldijarat(Jarat):
         self._celallomas = new_target
 
     @property
-    def ar1(self):
-        return self._ar1
+    def ar(self):
+        return self._ar
 
-    @ar1.setter
-    def ar1(self,uj_ar):
-        self._ar1 = uj_ar
+    @ar.setter
+    def ar(self,uj_ar):
+        self._ar = uj_ar
 
-    @property
-    def ar2(self):
-        return self._ar2
-
-    @ar2.setter
-    def ar2(self, uj_ar):
-        self._ar2 = uj_ar
 
     @property
     def jarattipus(self):
         return self._jarattipus
 
-
+    def ulohelyfoglalas(self):
+        if self._ulohelyek>0:
+            self._ulohelyek -= 1
+            return True
+        else:
+            return False

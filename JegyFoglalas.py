@@ -1,11 +1,17 @@
 class JegyFoglalas:
-    def __init__(self,ltarsasag_nev,jarat,osztaly,utas):
-        self._ltarsasag = ltarsasag_nev
-        self._jarat = jarat
-        self._osztaly = osztaly
-        self._utas = utas
+    def __init__(self,frobj,ltarsasag,jarat):
+        self._id = frobj.fn           # jegy azonosítószám a FoglaloRendszer objektumban
+        frobj.fn += 1
+        self._ltarsasag = frobj.legitarsasag[ltarsasag].nev
+        self._jarat = frobj.legitarsasag[ltarsasag].jaratok[jarat]
+        self._userid = frobj.userid
 
-
+    def __str__(self):
+        s = self._ltarsasag+"   "+self._jarat.id
+        return s
+    @property
+    def id(self):
+        return self._id
     @property
     def ltarsasag(self):
         return self._ltarsasag
@@ -14,12 +20,9 @@ class JegyFoglalas:
         return self._jarat
 
     @property
-    def osztaly(self):
-        return self._osztaly
+    def userid(self):
+        return self._userid
 
-    @property
-    def utas(self):
-        return self._utas
 
 
 
