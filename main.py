@@ -134,6 +134,7 @@ class FoglaloRendszer:
             try:
                 l = int(l)
             except ValueError as ve:
+                pass
             if l==0:
                 break
             else:
