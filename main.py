@@ -94,8 +94,7 @@ class FoglaloRendszer:
         self.fejlec()
         print(" ------------------------FOGLALÁSOK LISTÁZÁSA----------------------------")
         for i in self.foglalasok:
-
-if i.userid==self.userid:
+            if i.userid==self.userid:
                 print(f"{i.id} {i.ltarsasag}  {i.jarat.id} {i.jarat.celallomas} {i.jarat.indulasiido}")
 
     def foglalas(self):
