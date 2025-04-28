@@ -49,7 +49,7 @@ class FoglaloRendszer:
 
     def fejlec(self):
         cls()
-        print(f"Bejelentkezett felhasználó:{self.usernev}                       dátum:{datetime.now()}")
+        print(f"Bejelentkezett felhasználó:{self.usernev}                                     dátum:{datetime.now()}")
         print()
         print("                                                  Budapesti Repülőtér ")
 
@@ -114,17 +114,26 @@ class FoglaloRendszer:
             else:
                 break
         print(f"A járatra a jegyár: {self.legitarsasag[ltr].jaratok[ut].ar}")
-
-        self.foglalasok.append(JegyFoglalas(self,ltr,ut))
-        print(f"Köszönöm, a jegye lefoglalásra került a {j} azonosíójú repülőjáratra!")
-        print(f"A jegy azonosítószáma: {self.foglalasok[-1].id}")
+        while True:
+            v=(input("Megvásárolja ezt a jegyet ? (i/n)")).upper()
+            if v=="I" or v=="n":
+                break
+        if v=="I":
+            self.foglalasok.append(JegyFoglalas(self,ltr,ut))
+            print(f"Köszönöm, a jegye lefoglalásra került a {j} azonosíójú repülőjáratra!")
+            print(f"A jegy azonosítószáma: {self.foglalasok[-1].id}")
+        else:
+            return
 
     def lemondas(self):
         self.fejlec()
         print("-------------- Foglalás lemondása ----------------")
         print()
         while True:
-            l=int(input("Kérem adja meg a lemondandó foglalás azonosítóját, vagy 0-val kiléphet:"))
+            l=input("Kérem adja meg a lemondandó foglalás azonosítóját, vagy 0-val kiléphet:")
+            try:
+                l = int(l)
+            except ValueError as ve:
             if l==0:
                 break
             else:
@@ -175,13 +184,9 @@ class FoglaloRendszer:
             elif c == 3:
                 cls()
                 self.foglalas()
-                print()
-                input("Enter a visszalépéshez")
             elif c == 4:
                 cls()
                 self.lemondas()
-                print()
-                input("Enter a visszalépéshez")
             elif c == 5:
                 break
         pass
