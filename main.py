@@ -26,7 +26,7 @@ class FoglaloRendszer:
         self.usernev = usernev
         self.foglalasok = []
         self.legitarsasag = []
-        self.fn = 202500000
+        self.fn = 202500000         # foglalás szám, vagy inkább jegy azonosító
         self.adat_betoltes()
     def __add__(self, other):
         self.legitarsasag.append(other)
@@ -148,6 +148,7 @@ class FoglaloRendszer:
                     while True:
                         v = (input("Biztosan lemondja ezt a helyfoglalást ? (i/n)")).upper()
                         if v == "I":
+                            print(f"A visszautalt pénzösszeg (jegyár): {self.foglalasok[foglalas].jarat.ar}  Huf")
                             del self.foglalasok[foglalas]
                             print("A foglalás lemondva")
                             input("Enter a visszalépéshez")

@@ -2,7 +2,7 @@ from Jarat import Jarat
 
 
 class NemzetkoziJarat(Jarat):
-    def __init__(self, id, terminal, indulasiido, celallomas, ulohelyek, ar):
+    def __init__(self, id, terminal, indulasiido, celallomas, ulohelyek, ar = 60000):
         super().__init__(id, terminal, indulasiido, celallomas,ar)
         self._ulohelyek = ulohelyek
         self._ar = ar

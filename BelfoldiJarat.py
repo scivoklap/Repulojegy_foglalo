@@ -1,7 +1,7 @@
 from Jarat import Jarat
 
 class Belfoldijarat(Jarat):
-    def __init__(self,id,terminal,indulasiido,celallomas,ulohelyek,ar):
+    def __init__(self,id,terminal,indulasiido,celallomas,ulohelyek,ar = 10000):
         super().__init__(id,terminal,indulasiido,celallomas,ar)
         self._ulohelyek = ulohelyek
         self._ar = ar
