@@ -20,32 +20,18 @@ def cls():
 
 
 class FoglaloRendszer:
-    _Mentesfajlnev="Repuloter.csv"
     def __init__(self,userid,usernev):
         self.userid = userid
         self.usernev = usernev
+        self.celallomasok = []
         self.foglalasok = []
         self.legitarsasag = []
-        self.fn = 202500000         # foglalás szám, vagy inkább jegy azonosító
-        self.adat_betoltes()
+        self.fn = 202500000         # jegy azonosító kezdőérték
     def __add__(self, other):
         self.legitarsasag.append(other)
-
-    def adat_betoltes(self):
-        if os.path.exists(FoglaloRendszer._Mentesfajlnev):
-            with open(FoglaloRendszer._Mentesfajlnev, mode='r') as file:
-                csvfile=csv.reader(file)
-                for lines in csvfile:
-                    pass
-
-        return
-
-    def adatmentes_fileba(self):
-        with open(FoglaloRendszer._Mentesfajlnev, mode='w') as file:
-            for i in self.legitarsasag:
-                pass
-
-        return
+        for i in other.jaratok:
+            if not (i.celallomas in self.celallomasok):
+                self.celallomasok.append(i.celallomas)
 
     def fejlec(self):
         cls()
@@ -56,30 +42,27 @@ class FoglaloRendszer:
 
     def tarsasagok_jaratok(self):
         print(
-            "Légitársaság         Típus           Azonosító        Celallomas              indulási idő          Terminál")
+            "Sorszám   Légitársaság         Típus           Azonosító        Célállomás              indulási idő          Terminál           Ár")
         print(
-            "------------         -----           ---------        ----------              ------------          --------")
-
-        for j in self.legitarsasag:
-            for i in j.jaratok:
-                s = j.nev
-                for z in range(20 - len(s)):  # légitársaság neve
+            "--------  ------------         -----           ---------        ----------              ------------          --------         ---------")
+        ljarat=[]
+        t=0
+        for j in range(len(self.legitarsasag)):
+            lt = self.legitarsasag[j]
+            for i in range(len(lt.jaratok)):
+                ljarat.append((j,i))
+                t +=1
+                s = "  "+str(t)
+                for z in range(10 - len(s)):
                    s += " "
-                s += i.jarattipus
-                for z in range(40 - len(s)):  # id
+                s += lt.nev
+                for z in range(20 - len(s)):
                    s += " "
-                s += i.id
-                for z in range(55 - len(s)):  # célállomás jön
-                   s += " "
-                s += i.celallomas
-                for z in range(76 - len(s)):  # indulási idő
-                   s += " "
-                s += i.indulasiido
-                for z in range(105 - len(s)):  # terminál
-                   s += " "
-                s += i.terminal
+                for z in range(30-len(s)):
+                   s+=" "
+                s +=lt.jaratok[i].jaratadatok()
                 print(s)
-
+        return ljarat
     def foglalas_check(self,id):
         for i in range(len(self.foglalasok)):
             if self.foglalasok[i].id==id:
@@ -92,19 +75,122 @@ class FoglaloRendszer:
 
     def foglalas_listazas(self):
         self.fejlec()
-        print(" ------------------------FOGLALÁSOK LISTÁZÁSA----------------------------")
+        print(" ------------------------------------------FOGLALÁSOK LISTÁZÁSA------------------------------------------")
+        j = 0
         for i in self.foglalasok:
+            j += 1
             if i.userid==self.userid:
-                print(f"{i.id} {i.ltarsasag}  {i.jarat.id} {i.jarat.celallomas} {i.jarat.indulasiido}")
+                print(f"{j} {i.id} {i.ltarsasag}  {i.jarat.id} {i.jarat.celallomas} {i.jarat.indulasiido}")
+        return j
+
+
+    def I_N_bekeres(self,szoveg):
+        while True:
+                valasz = input(szoveg).upper()
+                if valasz == "I":
+                    return True
+                elif valasz == "N":
+                    return False
+
+
+    def szam_bekeres(self,szoveg,also_hatar,felso_hatar):
+        while True:
+            try:
+                valasz = int(input(szoveg))
+                if valasz >= also_hatar and valasz <= felso_hatar:
+                    break
+            except ValueError as e:
+                pass
+        return valasz
 
     def foglalas(self):
-        self.fejlec()
-        print("------------Jegy Foglalás-------------")
-        print()
+        def celallomas_lista():
+            j=0
+            s=""
+            for i in range(len(self.celallomasok)):
+                s=s+f"{i+1}:{self.celallomasok[i]}  "
+                j += 1
+                if j ==10:
+                    j = 0
+                    print(s)
+                    s=""
+            print(s)
+
+        def jaratkereses(celallomas):
+            s=""
+            talalat=[]
+            t=0
+            for i in range(len(self.legitarsasag)):
+                for j in range(len(self.legitarsasag[i].jaratok)):
+                    if self.legitarsasag[i].jaratok[j].celallomas==celallomas:
+                        s=""
+                        t += 1
+                        s += str(t)
+                        for z in range(3 - len(str(t))):
+                            s += " "
+                        s += self.legitarsasag[i].nev
+                        for z in range(20 - len(s)):
+                            s += " "
+                        s += self.legitarsasag[i].jaratok[j].jaratadatok()
+                        print(s)
+                        talalat.append((i,j))
+            return talalat
+
+
         while True:
-            j = input("Kérem adja meg a járat számát, vagy 0-val kiléphet:")
-            if j == "0":
+            cls()
+            self.fejlec()
+            print("--------------------------------------------------Jegy Foglalás-------------------------------------------")
+            print("                                 1: A legközelebb induló járatok valamelyikére foglalás")
+            print("                                 2: Járat keresése célállomás szerint")
+            print("                                 3: Visszalépés a főmenübe")
+
+            j = input("Kérem válasszon a menüpontokból:")
+            if j == "3":
                 return
+            elif j == "1":
+                cls()
+                print("--------------------------------------------------Jegy Foglalás-------------------------------------------")
+                print()
+                ljaratok = self.tarsasagok_jaratok()
+                print()
+                k=self.szam_bekeres("Adja meg a járat sorszámát, amire jegyet kíván foglalni, vagy 0-val kiléphet:",0,len(ljaratok))
+                if k==0:
+                    return
+                valasztott=ljaratok[k-1]
+                print("-----------------------------------")
+                print("A kiválasztott járat:")
+                print(self.legitarsasag[valasztott[0]].jaratok[valasztott[1]].jaratadatok())
+                if self.I_N_bekeres("Erre a kiválasztott repülőjáratra biztosan jegyet kíván foglalni ? (I/N)"):
+                    self.foglalasok.append(JegyFoglalas(self,valasztott[0],valasztott[1]))
+                    print("A jegyét lefoglaltuk!")
+                    input("Enter")
+            elif j == "2":
+                print("A jelenlegi járatokkal elérhető célállomások:")
+                print()
+                celallomas_lista()
+                print()
+                valasz = self.szam_bekeres("Kérem adja meg a célállomás sorszámát, vagy 0-val kiléphet:",0,len(self.celallomasok)+1,)
+                if valasz == 0:
+                    return
+                else:
+                    talalat = jaratkereses(self.celallomasok[valasz-1])
+                    if len(talalat)>1:
+                        sorszam=self.szam_bekeres("Kérem adja meg a járat sorszámát:",1,len(talalat))
+                        vjarat = talalat[sorszam-1]
+                    else:
+                        vjarat = talalat[0]
+                    if self.I_N_bekeres("Jegyet kíván foglalni erre a járatra ? (I/N):"):
+                        self.foglalasok.append(JegyFoglalas(self, vjarat[0],vjarat[1]))
+                        print()
+                        print(f"A járatra a jegyét lefoglaltuk!")
+                        input("Enter")
+                    else:
+                        return
+
+
+
+
             for ltr in range(len(self.legitarsasag)):
                 ut = self.legitarsasag[ltr].checkid(j)
                 if ut >=0:
@@ -115,10 +201,10 @@ class FoglaloRendszer:
                 break
         print(f"A járatra a jegyár: {self.legitarsasag[ltr].jaratok[ut].ar}")
         while True:
-            v=(input("Megvásárolja ezt a jegyet ? (i/n)")).upper()
-            if v=="I" or v=="n":
+            v = (input("Megvásárolja ezt a jegyet ? (i/n)")).upper()
+            if v == "I" or v == "N":
                 break
-        if v=="I":
+        if v == "I":
             self.foglalasok.append(JegyFoglalas(self,ltr,ut))
             print(f"Köszönöm, a jegye lefoglalásra került a {j} azonosíójú repülőjáratra!")
             print(f"A jegy azonosítószáma: {self.foglalasok[-1].id}")
@@ -129,6 +215,7 @@ class FoglaloRendszer:
         self.fejlec()
         print("-------------- Foglalás lemondása ----------------")
         print()
+        self.foglalas_listazas()
         while True:
             l=input("Kérem adja meg a lemondandó foglalás azonosítóját, vagy 0-val kiléphet:")
             try:
@@ -172,7 +259,10 @@ class FoglaloRendszer:
 
             for i in range(3):
                 print()
-            c = int(input("Válassz egy menüpontot:"))
+            try:
+                c = int(input("Válassz egy menüpontot:"))
+            except ValueError as v:
+                c=0
             if c == 1:
                 cls()
                 self.tarsasagok_jaratok()
@@ -191,6 +281,8 @@ class FoglaloRendszer:
                 self.lemondas()
             elif c == 5:
                 break
+            else:
+                pass
         pass
 
 
@@ -200,16 +292,16 @@ f=FoglaloRendszer(1234,"Mekk Elek")
 
 
 L=LegiTarsasag("MRT Légitársaság")
-L.jaratok = Belfoldijarat('BE456', 'A1', '2025.05.25 10:00', 'Debrecen', 96,  20000)
-L.jaratok = Belfoldijarat('BE460', 'A2', '2025.05.26 10:00', 'Szeged', 64, 30000)
-L.jaratok = NemzetkoziJarat('NE401', 'B1', '2025.05.24 11:00', 'Berlin', 100, 40000)
-L.jaratok = NemzetkoziJarat('NE560', 'B2', '2025.05.26 12:00', 'Amszterdam', 120,  50000)
-L.jaratok = NemzetkoziJarat('NE332', 'B3', '2025.05.27 13:00', 'Cyprus', 140, 60000)
+L.jaratok = Belfoldijarat('BE456', 'A1', datetime(2025,6,6, 10,0), 'Debrecen', 96,  20000)
+L.jaratok = Belfoldijarat('BE460', 'A2', datetime(2025,6,1,10,0), 'Szeged', 64, 30000)
+L.jaratok = NemzetkoziJarat('NE401', 'B1', datetime(2025,6,6,11,0), 'Berlin', 100, 40000)
+L.jaratok = NemzetkoziJarat('NE560', 'B2', datetime(2025,6,30,12,0), 'Amszterdam', 120,  50000)
+L.jaratok = NemzetkoziJarat('NE332', 'B3', datetime(2025,6,26,15,0), 'Cyprus', 140, 60000)
 
 f + L
 
 L2=LegiTarsasag("Ryanair")
-L2.jaratok = NemzetkoziJarat('RNE346', 'C', '2025.06.01 12:00', 'Amszterdam', 110, 70000)
+L2.jaratok = NemzetkoziJarat('RNE346', 'C', datetime(2025,6,6,10,0), 'Amszterdam', 110, 70000)
 
 
 f + L2

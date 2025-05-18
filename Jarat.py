@@ -42,3 +42,7 @@ class Jarat(ABC):
     @abstractmethod
     def ar(self):
         pass
+
+    @abstractmethod
+    def jaratadatok(self):
+        pass

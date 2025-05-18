@@ -19,7 +19,14 @@ class LegiTarsasag:
 
     @jaratok.setter
     def jaratok(self,uj_jarat):
-        self._jaratok.append(uj_jarat)
+        b = 0
+        for i in range(len(self._jaratok)):
+            if self._jaratok[i].indulasiido > uj_jarat.indulasiido:
+                self._jaratok.insert(i,uj_jarat)
+                b = 1
+                break
+        if b == 0:
+            self._jaratok.append(uj_jarat)
 
 
     def checkid(self,id):

@@ -58,3 +58,23 @@ class Belfoldijarat(Jarat):
             return True
         else:
             return False
+
+    def jaratadatok(self):
+        s = ''
+        s += self._jarattipus
+        for z in range(20 - len(s)):  # id
+            s += " "
+        s += self._id
+        for z in range(35 - len(s)):  # célállomás
+            s += " "
+        s += self._celallomas
+        for z in range(56 - len(s)):  # indulási idő
+            s += " "
+        s += str(self._indulasiido)
+        for z in range(85 - len(s)):  # terminál
+            s += " "
+        s += self._terminal
+        for z in range(100 - len(s)): # ár
+            s += " "
+        s += str(self._ar)
+        return s
