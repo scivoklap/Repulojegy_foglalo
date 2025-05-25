@@ -225,7 +225,15 @@ class FoglaloRendszer:
                 break
             else:
                 print("A lemondando foglalas:")
-                print(self.foglalasok[l-1].jarat.jaratadatok())
+                print(
+                    "Légitársaság         Típus           Azonosító        Célállomás              indulási idő          Terminál           Ár")
+                print(
+                    "------------         -----           ---------        ----------              ------------          --------         ---------")
+                s = self.foglalasok[l-1].ltarsasag
+                for sz in range(20-len(s)):
+                    s+=" "
+                s+=self.foglalasok[l-1].jarat.jaratadatok()
+                print(s)
                 print()
                 if self.I_N_bekeres("Biztosan lemondja ezt a helyfoglalást ? (i/n):"):
                    print(f"A visszautalt pénzösszeg (jegyár): {self.foglalasok[l-1].jarat.ar}  Huf")
