@@ -161,15 +161,16 @@ class FoglaloRendszer:
                 print()
                 k=self.szam_bekeres("Adja meg a járat sorszámát, amire jegyet kíván foglalni, vagy 0-val kiléphet:",0,len(ljaratok))
                 if k==0:
-                    return
-                valasztott=ljaratok[k-1]
-                print("-----------------------------------")
-                print("A kiválasztott járat:")
-                print(self.legitarsasag[valasztott[0]].jaratok[valasztott[1]].jaratadatok())
-                if self.I_N_bekeres("Erre a kiválasztott repülőjáratra biztosan jegyet kíván foglalni ? (I/N)"):
-                    self.foglalasok.append(JegyFoglalas(self,valasztott[0],valasztott[1]))
-                    print("A jegyét lefoglaltuk!")
-                    input("Enter")
+                    pass
+                else:
+                    valasztott=ljaratok[k-1]
+                    print("-----------------------------------")
+                    print("A kiválasztott járat:")
+                    print(self.legitarsasag[valasztott[0]].jaratok[valasztott[1]].jaratadatok())
+                    if self.I_N_bekeres("Erre a kiválasztott repülőjáratra biztosan jegyet kíván foglalni ? (I/N)"):
+                        self.foglalasok.append(JegyFoglalas(self,valasztott[0],valasztott[1]))
+                        print("A jegyét lefoglaltuk!")
+                        input("Enter")
             elif j == "2":
                 print("A jelenlegi járatokkal elérhető célállomások:")
                 print()
@@ -177,7 +178,7 @@ class FoglaloRendszer:
                 print()
                 valasz = self.szam_bekeres("Kérem adja meg a célállomás sorszámát, vagy 0-val kiléphet:",0,len(self.celallomasok)+1,)
                 if valasz == 0:
-                    return
+                    pass
                 else:
                     talalat = jaratkereses(self.celallomasok[valasz-1])
                     if len(talalat)>1:
@@ -192,7 +193,7 @@ class FoglaloRendszer:
                         print(f"A járatra a jegyét lefoglaltuk!")
                         input("Enter")
                     else:
-                        return
+                        pass
 
 
 
