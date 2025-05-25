@@ -72,6 +72,11 @@ class FoglaloRendszer:
     def foglalas_feltoltes(self):
         self.foglalasok.append(JegyFoglalas(self,0,0))
         self.foglalasok.append(JegyFoglalas(self,1,0))
+        self.foglalasok.append(JegyFoglalas(self,0,1))
+        self.foglalasok.append(JegyFoglalas(self,0,2))
+        self.foglalasok.append(JegyFoglalas(self,0,3))
+        self.foglalasok.append(JegyFoglalas(self,0,2))
+
 
     def foglalas_listazas(self):
         self.fejlec()
@@ -294,16 +299,16 @@ f=FoglaloRendszer(1234,"Mekk Elek")
 
 
 L=LegiTarsasag("MRT Légitársaság")
-L.jaratok = Belfoldijarat('BE456', 'A1', datetime(2025,6,6, 10,0), 'Debrecen', 96,  20000)
-L.jaratok = Belfoldijarat('BE460', 'A2', datetime(2025,6,1,10,0), 'Szeged', 64, 30000)
-L.jaratok = NemzetkoziJarat('NE401', 'B1', datetime(2025,6,6,11,0), 'Berlin', 100, 40000)
+L.jaratok = Belfoldijarat('BE456', 'A1', datetime(2025,6,20, 10,0), 'Debrecen', 96,  20000)
+L.jaratok = Belfoldijarat('BE460', 'A2', datetime(2025,6,13,10,0), 'Szeged', 64, 30000)
+L.jaratok = NemzetkoziJarat('NE401', 'B1', datetime(2025,6,25,11,0), 'Berlin', 100, 40000)
 L.jaratok = NemzetkoziJarat('NE560', 'B2', datetime(2025,6,30,12,0), 'Amszterdam', 120,  50000)
 L.jaratok = NemzetkoziJarat('NE332', 'B3', datetime(2025,6,26,15,0), 'Cyprus', 140, 60000)
 
 f + L
 
 L2=LegiTarsasag("Ryanair")
-L2.jaratok = NemzetkoziJarat('RNE346', 'C', datetime(2025,6,6,10,0), 'Amszterdam', 110, 70000)
+L2.jaratok = NemzetkoziJarat('RNE346', 'C', datetime(2025,6,28,10,0), 'Amszterdam', 110, 70000)
 
 
 f + L2
