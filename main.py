@@ -180,6 +180,7 @@ class FoglaloRendszer:
                         vjarat = talalat[sorszam-1]     #a legitarsasag hányadik, a járatokbol hányadik
                     else:
                         vjarat = talalat[0]
+                    print()
                     if self.I_N_bekeres("Jegyet kíván foglalni erre a járatra ? (I/N):"):
                         self.foglalasok.append(JegyFoglalas(self, vjarat[0],vjarat[1]))   #átadva: légitársaság száma,
                         print()
