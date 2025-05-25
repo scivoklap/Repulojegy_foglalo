@@ -86,7 +86,7 @@ class FoglaloRendszer:
 
     def I_N_bekeres(self,szoveg):
         while True:
-                valasz = input(szoveg).upper()
+                valasz = (input(szoveg)).upper()
                 if valasz == "I":
                     return True
                 elif valasz == "N":
@@ -177,11 +177,11 @@ class FoglaloRendszer:
                     talalat = jaratkereses(self.celallomasok[valasz-1])
                     if len(talalat)>1:
                         sorszam=self.szam_bekeres("Kérem adja meg a járat sorszámát:",1,len(talalat))
-                        vjarat = talalat[sorszam-1]
+                        vjarat = talalat[sorszam-1]     #a legitarsasag hányadik, a járatokbol hányadik
                     else:
                         vjarat = talalat[0]
                     if self.I_N_bekeres("Jegyet kíván foglalni erre a járatra ? (I/N):"):
-                        self.foglalasok.append(JegyFoglalas(self, vjarat[0],vjarat[1]))
+                        self.foglalasok.append(JegyFoglalas(self, vjarat[0],vjarat[1]))   #átadva: légitársaság száma,
                         print()
                         print(f"A járatra a jegyét lefoglaltuk!")
                         input("Enter")
@@ -215,33 +215,26 @@ class FoglaloRendszer:
         self.fejlec()
         print("-------------- Foglalás lemondása ----------------")
         print()
-        self.foglalas_listazas()
+        db=self.foglalas_listazas()
+        print()
         while True:
-            l=input("Kérem adja meg a lemondandó foglalás azonosítóját, vagy 0-val kiléphet:")
-            try:
-                l = int(l)
-            except ValueError as ve:
-                pass
+            l=self.szam_bekeres("Kérem adja meg a lemondandó foglalás sorszámát, vagy 0-val kiléphet:",0,db)
+            print()
             if l==0:
                 break
             else:
-                foglalas=self.foglalas_check(l)
-                if foglalas==-1:
-                    print("Ilyen azonosítószámú foglalás nem létezik!")
+                print("A lemondando foglalas:")
+                print(self.foglalasok[l-1].jarat.jaratadatok())
+                print()
+                if self.I_N_bekeres("Biztosan lemondja ezt a helyfoglalást ? (i/n):"):
+                   print(f"A visszautalt pénzösszeg (jegyár): {self.foglalasok[l-1].jarat.ar}  Huf")
+                   del self.foglalasok[l-1]
+                   print("A foglalás lemondva!")
+                   print()
+                   input("Enter a visszalépéshez")
+                   return
                 else:
-                    print("A lemondando foglalas:")
-                    print(self.foglalasok[foglalas])
-                    print()
-                    while True:
-                        v = (input("Biztosan lemondja ezt a helyfoglalást ? (i/n)")).upper()
-                        if v == "I":
-                            print(f"A visszautalt pénzösszeg (jegyár): {self.foglalasok[foglalas].jarat.ar}  Huf")
-                            del self.foglalasok[foglalas]
-                            print("A foglalás lemondva")
-                            input("Enter a visszalépéshez")
-                            return
-                        elif v == "N":
-                            break
+                   break
 
 
 
